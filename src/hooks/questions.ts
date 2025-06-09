@@ -9,7 +9,6 @@ import { questionType } from "@/types/sat-platform/questions";
 import { useState } from "react";
 import { answerCorrectRef } from "@/lib/questions/answer";
 
-// Custom hook to encapsulate logic because it is used in both math and reading/writing components
 const useQuestionHandler = () => {
   const setRandomQuestion = useQuestionStore((state) => state.setRandomQuestion);
   const answer = useAnswerStore((state) => state.answer);
@@ -27,21 +26,15 @@ const useQuestionHandler = () => {
 
   const randomQuestion = useQuestionStore((state) => state.randomQuestion)
 
-  // alreadyUsed is used for the 3 streaks modal. This way, whenever a new component re-render happens to subbed components
-  // the correctCount === 3 is still there but since alr used, will not work again
   const [alreadyUsed, setAlreadyUsed] = useState(false)
 
   const fetchRandomQuestion = async (type: questionType, topic: Topic): Promise<void> => {
     try {
-      let link = ""
-
-      if (type == "math") {
-        link = "/api/questions/math"
-      } else {
-        link = "/api/questions/reading"
-      }
+      
+      const link = type == "math" ? "/api/questions/math" : "/api/questions/reading"
       const response = await axios.get(`${link}?topic=${topic.name}`);
       const questionData = response.data?.doc_array?.[0] ?? null;
+      
       setRandomQuestion(questionData);
       setIsAnswerCorrect("none")
     } catch (error) {
@@ -67,10 +60,11 @@ const useQuestionHandler = () => {
 
     setIsAnswerCorrect(isCorrect);
 
-    // turn answer into index for the correctAnswer field
+    // CHANGE THIS PART (complex and werid)
+    
     const answerIdx = answerCorrectRef[answer || "A"]
 
-    // making a new token from a server-side action (function that runs on the SEVER!!)
+    // maybe add some sort of security so this cannot be used again (whitelist?)
     const token = await generateJWT({
       id: randomQuestion?._id,
       attempts,
@@ -78,7 +72,7 @@ const useQuestionHandler = () => {
       answer: answerIdx
     })
 
-    // Send request to backend
+    
     await axios.post("/api/questions/handle-submit", {
           jwtToken: token
     });
