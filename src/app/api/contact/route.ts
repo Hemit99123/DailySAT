@@ -1,7 +1,7 @@
-import { transporter } from '@/lib/nodemailer';
-import { handleGetContactEmailContent } from "@/lib/nodemailer/emailTemplates"
-import { NextRequest, NextResponse } from 'next/server';
- 
+import { transporter } from "@/lib/nodemailer";
+import { handleGetContactEmailContent } from "@/lib/nodemailer/emailTemplates";
+import { NextRequest, NextResponse } from "next/server";
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     // Server-side validation
     if (!first_name || !last_name || !email || !inquiry_type || !message) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: 'Invalid email format' },
+        { error: "Invalid email format" },
         { status: 400 }
       );
     }
@@ -28,22 +28,27 @@ export async function POST(request: NextRequest) {
         from: "DailySAT <dailysatorg@gmail.com>",
         to: "DailySAT <dailysatorg@gmail.com>",
         subject: "New form submission - DailySAT CONTACT FORM",
-        html: handleGetContactEmailContent(first_name, last_name, email, phone, inquiry_type, message)
-      })
-    } catch(error) {
-      throw new Error(`Failed to send email ${error}`)
+        html: handleGetContactEmailContent(
+          first_name,
+          last_name,
+          email,
+          phone,
+          inquiry_type,
+          message
+        ),
+      });
+    } catch (error) {
+      throw new Error(`Failed to send email ${error}`);
     }
 
     return NextResponse.json(
-      { message: 'Message sent successfully' },
+      { message: "Message sent successfully" },
       { status: 200 }
     );
-
   } catch (error) {
-    console.error('Contact form submission error:', error);
     return NextResponse.json(
-      { error: 'Failed to send message. Please try again later.' },
+      { error: "Failed to send message. Please try again later." },
       { status: 500 }
     );
   }
-} 
+}

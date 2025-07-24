@@ -86,7 +86,6 @@ export const POST = async () => {
 
     return Response.json({ totalQuantity });
   } catch (error) {
-    console.error("Investor calculation error:", error);
     return Response.json({ result: "Server error" }, { status: 500 });
   } finally {
     // Ensure database connection is closed

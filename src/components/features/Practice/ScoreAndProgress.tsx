@@ -54,7 +54,8 @@ const Card: React.FC<CardProps> = ({
         {icon}
         {title}
       </span>
-      {expandable && (expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />)}
+      {expandable &&
+        (expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />)}
     </button>
     {children}
   </div>
@@ -72,11 +73,12 @@ const ScoreAndProgress: React.FC<ScoreAndProgressProps> = ({
   const [isAccuracyExpanded, setIsAccuracyExpanded] = useState(false);
 
   const totalAttempts = correctCount + wrongCount;
-  const accuracy = totalAttempts === 0 ? 0 : (correctCount / totalAttempts) * 100;
+  const accuracy =
+    totalAttempts === 0 ? 0 : (correctCount / totalAttempts) * 100;
 
   return (
     <div className="flex w-[250px] flex-col gap-5">
-      {/* ---------------- Accuracy ----------------------- */}
+      {/* Accuracy */}
       <Card
         title="Accuracy"
         icon={<Target size={16} className="text-blue-800" />}
@@ -131,23 +133,30 @@ const ScoreAndProgress: React.FC<ScoreAndProgressProps> = ({
         </div>
       </Card>
 
-      {/* ---------------- Progress ---------------------- */}
-      <Card title="Progress" icon={<ListChecks size={16} className="text-blue-800" />}>
-      <div 
+      {/*  Progress  */}
+      <Card
+        title="Progress"
+        icon={<ListChecks size={16} className="text-blue-800" />}
+      >
+        <div
           className="flex max-h-[125px] flex-wrap gap-2 overflow-y-auto p-4"
           role="group"
           aria-label="Question progress tracker"
-      >
+        >
           {questionHistory.length === 0 && (
-            <span className="text-xs text-gray-500">Answer questions to see your progress.</span>
+            <span className="text-xs text-gray-500">
+              Answer questions to see your progress.
+            </span>
           )}
 
           {questionHistory.map((item, index) => {
             let bgColor = "bg-gray-400";
             if (item.isMarkedForLater) bgColor = "bg-yellow-400";
-            else if (item.isAnswered) bgColor = item.isCorrect ? "bg-green-500" : "bg-red-500";
+            else if (item.isAnswered)
+              bgColor = item.isCorrect ? "bg-green-500" : "bg-red-500";
 
-            const isCurrent = currentQuestion && item.question.id === currentQuestion.id;
+            const isCurrent =
+              currentQuestion && item.question.id === currentQuestion.id;
 
             return (
               <button
@@ -155,7 +164,9 @@ const ScoreAndProgress: React.FC<ScoreAndProgressProps> = ({
                 onClick={() => onProgressBoxClick(index)}
                 title={`Question ${index + 1}`}
                 className={`flex h-8 w-8 items-center justify-center rounded-md text-xs font-bold text-white shadow transition-all hover:opacity-90 ${bgColor} ${
-                  isCurrent ? "ring-2 ring-blue-800 ring-offset-2 ring-offset-blue-100" : ""
+                  isCurrent
+                    ? "ring-2 ring-blue-800 ring-offset-2 ring-offset-blue-100"
+                    : ""
                 }`}
               >
                 {index + 1}

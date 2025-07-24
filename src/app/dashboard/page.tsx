@@ -92,13 +92,11 @@ const Home = () => {
         getIcon(userData);
         getBanner(userData);
         setUser?.(userData ?? null);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
+      } catch (error) {}
     };
 
     handleGetUser();
-  }, [setUser]);
+  }, []);
 
   useEffect(() => {
     const getGreeting = () => {
@@ -141,17 +139,29 @@ const Home = () => {
       <div className="lg:px-16 lg:p-6 px-2">
         <div className="grid grids-cols-1 md:grid-cols-3 mx-auto md:w-4/5 gap-2 mt-px">
           {user ? (
-            <Option icon={<Book />} header="English" redirect="/practice/english" />
+            <Option
+              icon={<Book />}
+              header="English"
+              redirect="/practice/english"
+            />
           ) : (
             <Skeleton className="w-full h-[64px] bg-gray-700/60" />
           )}
           {user ? (
-            <Option icon={<EqualApproximately />} header="Math" redirect="/practice/math" />
+            <Option
+              icon={<EqualApproximately />}
+              header="Math"
+              redirect="/practice/math"
+            />
           ) : (
             <Skeleton className="w-full h-[64px] bg-gray-700/60" />
           )}
           {user ? (
-            <Option icon={<Calendar />} header="Study Plan" redirect="/dashboard/study-plan" />
+            <Option
+              icon={<Calendar />}
+              header="Study Plan"
+              redirect="/dashboard/study-plan"
+            />
           ) : (
             <Skeleton className="w-full h-[64px] bg-gray-700/60" />
           )}
@@ -190,7 +200,9 @@ const Home = () => {
             <div className="ml-6">
               {user ? (
                 <>
-                  <p className="text-3xl font-bold text-blue-600">{user?.name}</p>
+                  <p className="text-3xl font-bold text-blue-600">
+                    {user?.name}
+                  </p>
                   <p>Email: {user?.email}</p>
                 </>
               ) : (
@@ -205,7 +217,9 @@ const Home = () => {
           <div className="lg:mr-[10vw] relative">
             {user ? (
               <>
-                <p className="text-xl font-semibold text-green-600">Referral Code</p>
+                <p className="text-xl font-semibold text-green-600">
+                  Referral Code
+                </p>
                 <p className="text-gray-700 flex items-center mb-2">
                   <button onClick={handleCopyReferral}>
                     <Image
@@ -267,21 +281,21 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {!user?.isReferred &&
+          {!user?.isReferred && (
             <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center justify-center min-h-[200px]">
               <RedeemReferral />
             </div>
-          }
+          )}
           <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center justify-center min-h-[200px]">
             {user ? (
               <Link href="/shop" className="w-full">
-              <StatDisplay
-                type="items bought"
-                color="#2563EA"
-                icon="shop"
-                header="Shop:"
-                number={user?.itemsBought?.length ?? 0}
-              />
+                <StatDisplay
+                  type="items bought"
+                  color="#2563EA"
+                  icon="shop"
+                  header="Shop:"
+                  number={user?.itemsBought?.length ?? 0}
+                />
               </Link>
             ) : (
               <Skeleton className="w-full h-[200px] mb-2 bg-gray-600/60" />
@@ -289,14 +303,15 @@ const Home = () => {
           </div>
         </div>
 
-        {user?.itemsBought?.some((item) => item.name.includes("Banner")) && banner?.style && (
-          <div className={banner.style}>
-            <p>
-              {banner.content}
-              {user?.name ? `, ${user.name.split(" ")[0]}!` : "!"}
-            </p>
-          </div>
-        )}
+        {user?.itemsBought?.some((item) => item.name.includes("Banner")) &&
+          banner?.style && (
+            <div className={banner.style}>
+              <p>
+                {banner.content}
+                {user?.name ? `, ${user.name.split(" ")[0]}!` : "!"}
+              </p>
+            </div>
+          )}
       </div>
     </div>
   );

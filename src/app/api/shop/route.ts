@@ -100,7 +100,6 @@ export const POST = async (request: Request) => {
       result: "Success - items bought",
     });
   } catch (error) {
-    console.error(error);
     return Response.json({
       result: "DB Error",
     });

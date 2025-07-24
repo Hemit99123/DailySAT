@@ -77,19 +77,19 @@ export const TopicSidebar: React.FC<TopicSidebarProps> = ({
 
   return (
     <aside className="w-[250px] space-y-6 rounded-lg bg-slate-50 p-5 shadow">
-      {/* ---------------- Subject Heading ---------------- */}
+      {/*  Subject Heading  */}
       {subject === "English" && (
-            <h2 className="flex items-center gap-2 text-lg font-bold text-slate-800">
-              <BookOpen className="h-5 w-5" /> {subject}
-            </h2>
-       )}
-       {subject === "Math" && (
-            <h2 className="flex items-center gap-2 text-lg font-bold text-slate-800">
-              <SquareSigma className="h-5 w-5" /> {subject}
-            </h2>
-       )}
+        <h2 className="flex items-center gap-2 text-lg font-bold text-slate-800">
+          <BookOpen className="h-5 w-5" /> {subject}
+        </h2>
+      )}
+      {subject === "Math" && (
+        <h2 className="flex items-center gap-2 text-lg font-bold text-slate-800">
+          <SquareSigma className="h-5 w-5" /> {subject}
+        </h2>
+      )}
 
-      {/* ---------------- Subject Switch ------------------ */}
+      {/* Subject Switch */}
       <Link
         href={switchHref}
         className="flex items-center justify-center gap-1 rounded border border-blue-600 bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700 shadow hover:bg-blue-100"
@@ -100,7 +100,7 @@ export const TopicSidebar: React.FC<TopicSidebarProps> = ({
 
       <hr className="border-slate-300" />
 
-      {/* ---------------- Topics -------------------------- */}
+      {/* Topics */}
       <section className="space-y-2">
         <h3 className="text-sm font-semibold text-slate-600">Topics:</h3>
         <div className="flex flex-col gap-2">
@@ -112,28 +112,30 @@ export const TopicSidebar: React.FC<TopicSidebarProps> = ({
         </div>
       </section>
 
-      {/* ---------------- Difficulty ---------------------- */}
+      {/* Difficulty */}
       <section className="space-y-3">
-        <h3 className="text-sm font-semibold text-slate-600">Choose Difficulty:</h3>
+        <h3 className="text-sm font-semibold text-slate-600">
+          Choose Difficulty:
+        </h3>
         <div className="flex gap-3">
-          {(Object.keys(DIFFICULTY_META) as TopicSidebarProps["difficulty"][]).map(
-            (diff) => {
-              const meta = DIFFICULTY_META[diff];
-              const isActive = difficulty === diff;
-              return (
-                <button
-                  key={diff}
-                  onClick={() => setDifficulty(diff)}
-                  title={meta.tooltip}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border font-medium shadow transition-all ${
-                    isActive ? "border-blue-600" : "border-slate-300"
-                  } ${meta.bg}`}
-                >
-                  <span className="text-lg">{meta.emoji}</span>
-                </button>
-              );
-            },
-          )}
+          {(
+            Object.keys(DIFFICULTY_META) as TopicSidebarProps["difficulty"][]
+          ).map((diff) => {
+            const meta = DIFFICULTY_META[diff];
+            const isActive = difficulty === diff;
+            return (
+              <button
+                key={diff}
+                onClick={() => setDifficulty(diff)}
+                title={meta.tooltip}
+                className={`flex h-10 w-10 items-center justify-center rounded-full border font-medium shadow transition-all ${
+                  isActive ? "border-blue-600" : "border-slate-300"
+                } ${meta.bg}`}
+              >
+                <span className="text-lg">{meta.emoji}</span>
+              </button>
+            );
+          })}
         </div>
       </section>
     </aside>
